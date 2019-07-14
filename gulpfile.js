@@ -7,6 +7,7 @@ const watch = require("gulp-watch");
 const browserSync = require("browser-sync");
 const reload = browserSync.reload;
 const shell = require("gulp-shell");
+const historyApiFallback = require('connect-history-api-fallback')
 
 gulp.task("default", ["styles", "webpack", "browser-sync"], () => {
   gulp.watch("./assets/sass/**/*", ["styles"]);
@@ -49,7 +50,10 @@ gulp.task("browser-sync", ["styles"], function() {
   // })
 
   browserSync.init({
-    server: "./public",
+    server: {
+      baseDir: "./public",
+      middleware: [historyApiFallback()]
+    },
     notify: false,
     open: true //change this to true if you want the broser to open automatically
   });
